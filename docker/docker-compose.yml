@@ -1,0 +1,23 @@
+#ambassador:
+#     image: cpuguy83/docker-grand-ambassador
+#    volume: "/var/run/docker.sock:/var/run/docker.sock"
+#    command: "-name serva -name servb"
+
+serva:
+  build: servicioa/
+  environment:
+   - "SPRING_PROFILES_ACTIVE=docker"
+  #link: "ambassador:servb"
+  links: 
+      - "servb:servb"
+  ports:
+    - 4000:4000
+ 
+servb:
+  build: serviciob/
+  environment:
+   - "SPRING_PROFILES_ACTIVE=docker"  
+  ports: 
+     - 5000:5000
+  #link: "ambassador:serva"
+

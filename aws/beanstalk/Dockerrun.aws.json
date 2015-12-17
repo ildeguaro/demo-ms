@@ -1,0 +1,51 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  
+  "containerDefinitions": [
+    {
+      "name": "ildemaromedina/serva",
+      "image": "serva",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 4000,
+          "containerPort": 4000
+        }
+      ],
+      "links": [
+        "servb",
+        "servb"
+      ],
+      "environment": [
+        {
+          "name": "SPRING_PROFILES_ACTIVE",
+          "value": "docker"
+        }
+      ]
+    },
+      {
+      "name": "ildemaromedina/servb",
+      "image": "servb",
+      "essential": true,
+      "memory": 512,
+      "portMappings": [
+        {
+          "hostPort": 5000,
+          "containerPort": 5000
+        }
+      ],
+      "links": [
+        "serva",
+        "serva"
+      ],
+      "environment": [
+        {
+          "name": "SPRING_PROFILES_ACTIVE",
+          "value": "docker"
+        }
+      ]
+    }
+     
+    ]
+}

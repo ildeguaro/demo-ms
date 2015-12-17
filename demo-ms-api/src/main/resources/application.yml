@@ -1,0 +1,45 @@
+## YAML Template.
+
+spring:
+  application:
+   name: serva
+---
+spring:
+ profiles:
+  active: docker
+---
+spring:
+ profiles: dev 
+server:
+ port: 4000
+ url_serv_b: http://localhost:4000
+spring.datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1/gsgtech
+  username: root
+  password: 123456
+
+spring.jpa:
+  hibernate:
+    dialect: org.hibernate.dialect.MySQLInnoDBDialect
+    #ddl-auto: update
+logging:
+   level.org.springframework: ERROR
+---   
+spring:
+ profiles: docker
+server:
+ port: 4000
+ url_serv_b: http://servb:5000/
+spring.datasource:
+  driverClassName: com.mysql.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1/gsgtech
+  username: root
+  password: 123456
+
+spring.jpa:
+  hibernate:
+    dialect: org.hibernate.dialect.MySQLInnoDBDialect
+   #ddl-auto: update
+logging:
+   level.org.springframework: ERROR
