@@ -32,7 +32,7 @@ spring:
   datasource:
       driver-class-name: org.h2.jdbcx.JdbcDataSource
       url: jdbc:h2:file:./target/h2db/db/demo;DB_CLOSE_DELAY=-1
-      name:
+      name: ds-demodev
       username: 
       password:
   jpa:

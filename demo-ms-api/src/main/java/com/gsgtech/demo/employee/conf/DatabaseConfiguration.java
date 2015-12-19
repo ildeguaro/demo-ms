@@ -21,6 +21,11 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 
+/**
+ * 
+ * @author Jorge Guerrero
+ *
+ */
 @Configuration
 @EnableJpaRepositories("com.gsgtech.demo.employee.repository")
 @EnableTransactionManagement
@@ -56,10 +61,10 @@ public class DatabaseConfiguration {
 	}
 	
     /**
-     * Iniciar Servidor de Base de Datos H2, para que ésta sea accesible remotamente.
+     * Iniciar Servidor de Base de Datos H2 (para desarrollo), para que ésta sea accesible remotamente.
      */
     @Bean(initMethod = "start", destroyMethod = "stop")
-    @Profile("dev")
+    @Profile(Constants.SPRING_PROFILE_DEVELOPMENT)
     public Server h2TCPServer() throws SQLException {
         return Server.createTcpServer("-tcp", "-tcpAllowOthers");
     }

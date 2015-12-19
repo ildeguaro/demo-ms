@@ -42,22 +42,20 @@ public class EmployeeResource {
 	 * Ejemplo: http://127.0.0.1:8080/api/employees/?page=0&size=10
 	 */
     @RequestMapping(value = "/employees",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Employee>> getAllEmployees(Pageable pageable) {
     	Page<Employee> page = employeeService.getAllEmployees(pageable);
 		return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
 	}
 
     @RequestMapping(value = "/employees/{id}",
-    		method = RequestMethod.GET,
-    		produces = MediaType.APPLICATION_JSON_VALUE)
+		method = RequestMethod.GET,
+		produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer id) {
 		Employee employee = employeeService.getEmployeeById(id);
         return Optional.ofNullable(employee)
-            .map(result -> new ResponseEntity<>(
-                result,
-                HttpStatus.OK))
+            .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 

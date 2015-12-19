@@ -8,6 +8,12 @@ import org.springframework.data.domain.Pageable;
 import com.gsgtech.demo.employee.domain.Employee;
 
 
+/**
+ * 
+ * @author Ildemaro Médina
+ * @author Jorge Guerrero
+ *
+ */
 public interface EmployeeService {
 	
 	public Page<Employee> getAllEmployees(Pageable pageable);
