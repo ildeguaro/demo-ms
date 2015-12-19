@@ -38,6 +38,22 @@
 				<role>Developer Micro-Service</role>
 			</roles>
 		</developer>
+		<developer>
+			<id>jguerrero</id>
+			<name>Jorge Guerrero</name>
+			<email>jguerrero at gsgtech.com</email>
+			<organization>GSG Tech</organization>
+			<organizationUrl>http://www.gsgtech.com/</organizationUrl>
+			<properties>
+				<mobile>+584245327208</mobile>
+				<email-personal>guerreroje at gmail.com</email-personal>
+				<skype>jorge.guerreroje56</skype>
+				<twitter>warriorje</twitter>
+			</properties>
+			<roles>
+				<role>Project lead</role>
+			</roles>
+		</developer>
 	</developers>
 
 	<properties>
