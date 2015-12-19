@@ -29,8 +29,8 @@ import java.util.Arrays;
 @Configuration
 @EnableJpaRepositories("com.gsgtech.demo.employee.repository")
 @EnableTransactionManagement
-public class DatabaseConfiguration {
-    private final Logger log = LoggerFactory.getLogger(DatabaseConfiguration.class);
+public class DatabaseConf {
+    private final Logger log = LoggerFactory.getLogger(DatabaseConf.class);
 
     @Autowired
     private Environment env;
