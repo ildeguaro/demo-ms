@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gsgtech.demo.employee.domain.Employee;
+import com.gsgtech.demo.employee.dto.EmployeeDTO;
+import com.gsgtech.demo.employee.rest.util.EmployeeCovertUtil;
 import com.gsgtech.demo.employee.rest.util.HeaderUtil;
 import com.gsgtech.demo.employee.service.EmployeeService;
 
@@ -52,8 +54,8 @@ public class EmployeeResource {
     @RequestMapping(value = "/employees/{id}",
 		method = RequestMethod.GET,
 		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employee> getEmployeeById(@PathVariable Integer id) {
-		Employee employee = employeeService.getEmployeeById(id);
+	public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable Integer id) {
+		EmployeeDTO employee = EmployeeCovertUtil.convertToDto(employeeService.getEmployeeById(id));
         return Optional.ofNullable(employee)
             .map(result -> new ResponseEntity<>(result, HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -62,9 +64,9 @@ public class EmployeeResource {
 	@RequestMapping(value = "/employees/search/{query}",
 	    method = RequestMethod.GET,
 	    produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Employee> getEmployeeByFirstName(@PathVariable String query) {
+	public List<EmployeeDTO> getEmployeeByFirstName(@PathVariable String query) {
 		log.debug("REST: solicitud para buscar Empleados por Nombre: {}", query);
-		List<Employee> result = employeeService.getEmployeeByFirstName(query);
+		List<EmployeeDTO> result = EmployeeCovertUtil.convertToListDto(employeeService.getEmployeeByFirstName(query));
 		return result;
 	}
 	
@@ -76,32 +78,37 @@ public class EmployeeResource {
         return ResponseEntity.ok().build();
     }
     
-	@RequestMapping(value = "/employees", 
-		method = RequestMethod.POST, 
-		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) throws URISyntaxException {
-		log.debug("REST: solicitud para salvar el Empleado: {}", employee);
-		if (employee.getId() != null) {
-			return ResponseEntity.badRequest().headers(
-					HeaderUtil.createFailureAlert("employee", "idexists", "El nuevo Empleado no puede tener ID"))
-					.body(null);
-		}
-		Employee result = employeeService.saveEmployee(employee);
-		return ResponseEntity.created(new URI("/api/employees/" + result.getId()))
-				.headers(HeaderUtil.createEntityCreationAlert("employee", result.getId().toString())).body(result);
-	}
+    @RequestMapping(value = "/employees", 
+    		method = RequestMethod.POST, 
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    	public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDto) throws URISyntaxException {
+    		log.debug("REST: solicitud para salvar el Empleado: {}", employeeDto);
+    		if (employeeDto.getId() != null) {
+    			return ResponseEntity.badRequest().headers(
+    					HeaderUtil.createFailureAlert("employee", "idexists", "El nuevo Empleado no puede tener ID"))
+    					.body(null);
+    		}
+    		Employee result = employeeService.saveEmployee(EmployeeCovertUtil.convertToEntity(employeeDto));
+    		employeeDto.setId(result.getId());
+    		return ResponseEntity.created(new URI("/api/employees/" + employeeDto.getId()))
+    				.headers(HeaderUtil.createEntityCreationAlert("employee", employeeDto.getId().toString())).body(employeeDto);
+    	}
 	
-	@RequestMapping(value = "/employees", 
-		method = RequestMethod.PUT, 
-		produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody Employee employee) throws URISyntaxException {
-		log.debug("REST: solicitud para modificar el Empleado: {}", employee);
-		if (employee.getId() == null) {
-			return createEmployee(employee);
-		}
-		Employee result = employeeService.saveEmployee(employee);
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("employee", 
-				employee.getId().toString())).body(result);
-	}
+    @RequestMapping(value = "/employees", 
+    		method = RequestMethod.PUT, 
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    	public ResponseEntity<EmployeeDTO> updateEmployee(@Valid @RequestBody EmployeeDTO employeeDto) throws URISyntaxException {
+    		log.debug("REST: solicitud para modificar el Empleado: {}", employeeDto);
+    		if (employeeDto.getId() == null) {
+    			return createEmployee(employeeDto);
+    		}
+    		Employee result = employeeService.saveEmployee(EmployeeCovertUtil.convertToEntity(employeeDto));
+    		employeeDto.setId(result.getId());
+    		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("employee", 
+    				employeeDto.getId().toString())).body(employeeDto);
+    	}
+
+	
+	
 
 }

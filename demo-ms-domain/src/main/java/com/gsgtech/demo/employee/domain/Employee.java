@@ -1,6 +1,7 @@
 
 package com.gsgtech.demo.employee.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,35 +15,51 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author Ildemaro Médina
+ * @author Ildemaro Medina
  * 
  */
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1290841368344937836L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 
-	@Column(name = "first_name", nullable = false)
+	@Column(name = "first_name", nullable = false, length=30)
 	private String firstName;
 
-	@Column(name = "last_name", nullable = false)
+	@Column(name = "last_name", nullable = false, length=30)
 	private String lastName;
 
 	@Column(name = "birth_date", nullable = true)
 	@Temporal(TemporalType.DATE)
 	private Date birthDate;
+	
+	@Column(nullable = false, length=255)
+	private String email;
+	
+	@Column(name = "num_phone", nullable = false, length=15)
+	private String numPhone;
+	
 
 	public Employee() {
 
-	}
+	}	
 
-	public Employee(String firstName, String lastName, Date birthDate) {
+	public Employee(Integer id, String firstName, String lastName, Date birthDate, String email, String numPhone) {
+		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDate = birthDate;
+		this.email = email;
+		this.numPhone = numPhone;
 	}
 
 	public Integer getId() {
@@ -65,7 +82,7 @@ public class Employee {
 		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
+	public void setLastName(String last_name) {
 		this.lastName = last_name;
 	}
 
@@ -75,6 +92,22 @@ public class Employee {
 
 	public void setBirthDate(Date birthdate) {
 		this.birthDate = birthdate;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNumPhone() {
+		return numPhone;
+	}
+
+	public void setNumPhone(String numPhone) {
+		this.numPhone = numPhone;
 	}
 
 	@Override
