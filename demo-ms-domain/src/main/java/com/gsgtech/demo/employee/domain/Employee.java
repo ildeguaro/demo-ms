@@ -1,60 +1,51 @@
 
 package com.gsgtech.demo.employee.domain;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 /**
  *
  * @author Ildemaro Medina
+ * @author Jorge Guerrero
  * 
  */
 @Entity
 @Table(name = "employee")
-public class Employee implements Serializable{
-
-	/**
-	 * 
-	 */
+public class Employee extends AbstractEntity<Integer> {
 	private static final long serialVersionUID = 1290841368344937836L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(updatable = false, unique = true, nullable = false)
 	private Integer id;
 
-	@Column(name = "first_name", nullable = false, length=30)
+	@Column(name = "first_name", nullable = false, length = 50)
 	private String firstName;
 
-	@Column(name = "last_name", nullable = false, length=30)
+	@Column(name = "last_name", nullable = false, length = 50)
 	private String lastName;
 
 	@Column(name = "birth_date", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date birthDate;
-	
-	@Column(nullable = false, length=255)
+	private LocalDate birthDate;
+
+	@Column(nullable = false, length = 100)
 	private String email;
-	
-	@Column(name = "num_phone", nullable = false, length=15)
+
+	@Column(name = "num_phone", nullable = false, length = 15)
 	private String numPhone;
-	
 
 	public Employee() {
 
 	}	
 
-	public Employee(Integer id, String firstName, String lastName, Date birthDate, String email, String numPhone) {
-		super();
-		this.id = id;
+	public Employee(String firstName, String lastName, LocalDate birthDate, String email, String numPhone) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDate = birthDate;
@@ -62,10 +53,12 @@ public class Employee implements Serializable{
 		this.numPhone = numPhone;
 	}
 
+	@Override
 	public Integer getId() {
 		return id;
 	}
 
+	@Override
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -86,11 +79,11 @@ public class Employee implements Serializable{
 		this.lastName = last_name;
 	}
 
-	public Date getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Date birthdate) {
+	public void setBirthDate(LocalDate birthdate) {
 		this.birthDate = birthdate;
 	}
 
@@ -113,11 +106,6 @@ public class Employee implements Serializable{
 	@Override
 	public String toString() {
 		return firstName + " " + lastName;
-	}
-
-	@Override
-	public int hashCode() {
-		return id;
 	}
 
 }
