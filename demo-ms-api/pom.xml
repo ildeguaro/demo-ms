@@ -56,6 +56,11 @@
 			<groupId>${project.groupId}</groupId>
 			<artifactId>demo-ms-service</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+			
+		</dependency>
 		
 		<!-- Testing -->
 		
@@ -63,6 +68,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-artemis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+			<version>1.47</version>
+		</dependency>
+		<dependency>
+			<groupId>com.goldmansachs</groupId>
+			<artifactId>gs-collections</artifactId>
+			<version>5.1.0</version>
 		</dependency>
 	</dependencies>
 	

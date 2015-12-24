@@ -1,0 +1,73 @@
+---
+spring:
+  application:
+    name: employee-service
+  profiles:
+    active: dev
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+  mvc:
+    favicon:
+      enabled: false
+management:
+  contextPath: /admin
+endpoints:
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+logging:
+  level:
+    ROOT: 'INFO'
+    com.gsgtech.demo: INFO
+server:
+  port: 8080
+
+---
+spring:
+  profiles: dev 
+  datasource:
+      driver-class-name: org.h2.jdbcx.JdbcDataSource
+      url: jdbc:h2:file:./target/h2db/db/demo;DB_CLOSE_DELAY=-1
+      name: ds-demodev
+      username: 
+      password:
+  jpa:
+      database-platform: com.gsgtech.demo.employee.db.dialect.FixedH2Dialect
+      database: H2
+      generate-ddl: true
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+      properties:
+          hibernate.cache.use_second_level_cache: false
+          hibernate.cache.use_query_cache: false
+          hibernate.generate_statistics: false
+logging:
+  level:
+    com.gsgtech.demo: DEBUG
+
+---
+spring:
+  profiles: prod 
+  datasource:
+    driver-class-name: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+    url: jdbc:mysql://127.0.0.1:3306/gsgtech?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123456
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLInnoDBDialect
+    database: MYSQL
+    show-sql: false
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
+    
